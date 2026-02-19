@@ -5,6 +5,10 @@
   font: inherit;
 }
 
+li {
+  list-style: none;
+}
+
 :root {
   font-family: Arial,  sans-serif;
 }
@@ -15,14 +19,83 @@
   border-bottom: 2px solid grey;
   margin-bottom: 42px;
 
-  h1 {
+  > h1 {
     font-size: 2rem;
     margin-bottom: 28px;
   }
 
-  button {
+  > button {
     font-size: 1.2rem;
     padding: 4px 8px
+  }
+}
+
+#add-book-dialog {
+  --input-gap: 16px;
+
+  /* Move it 50% relative to container */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  /* Move it back 50% relative to self */
+  transform: translateX(-50%) translateY(-50%);
+
+  border-radius: 12px;
+  padding: 24px;
+
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: var(--input-gap);
+  }
+}
+
+.text-field-container {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: var(--input-gap) 8px;
+  margin-bottom: var(--input-gap);
+
+  p {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+
+    label {
+      justify-self: end;
+      align-self: center;
+    }
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+  button {
+    padding: 4px 8px;
+  }
+}
+
+input {
+  border: 2px solid rgb(177, 177, 177);
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+fieldset {
+  padding: 12px 0;
+  margin-bottom: var(--input-gap);
+
+  legend {
+    margin-left: 12px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: center;
+    gap: 22px;
   }
 }
 
