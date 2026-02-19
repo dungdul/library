@@ -12,8 +12,8 @@
     <h1>Library</h1>
     <button id="add" command="show-modal" commandfor="add-book-dialog">Add a new book</button>
     <dialog id="add-book-dialog">
-      <h1>Add a new book</h1>
       <form action="">
+        <h1>Add a new book</h1>
         <div class="text-field-container">
           <p>
             <label for="title">Title:</label>
@@ -45,20 +45,13 @@
             </li>
           </ul>
         </fieldset>
+        <div class="button-container">
+          <button id="cancel">Cancel</button>
+          <button id="confirm">Confirm</button>
+        </div>
       </form>
-      <div class="button-container">
-        <button command="close" commandfor="add-book-dialog">Cancel</button>
-        <button command="close" commandfor="add-book-dialog">Confirm</button>
-      </div>
     </dialog>
   </div>
-  <div id="library">
-    <div class="card">
-      <h2>Title</h2>
-      <p>Author: some guy</p>
-      <p>200 pages</p>
-      <p>unread</p>
-    </div>
-  </div>
+  <div id="library"></div>
 </body>
 </html>
