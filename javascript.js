@@ -33,7 +33,7 @@ function displayLibrary() {
 }
 
 function createBookCard(book) {
-  // Create card's child elements
+  // Text content
   let title = document.createElement("h2");
   title.classList.add("title");
   title.textContent = book.title;
@@ -43,11 +43,23 @@ function createBookCard(book) {
   pages.textContent = `${book.pages} pages`;
   let readStatus = document.createElement("p");
   readStatus.textContent = book.read ? "read" : "unread";
+  let textBox = document.createElement("div");
+  textBox.append(title, author, pages, readStatus);
+
+  // Buttons
+  let toggleReadButton = document.createElement("button");
+  toggleReadButton.textContent = book.read ? "Mark as unread" : "Mark as read"
+  let deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  let buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("button-container");
+  buttonContainer.append( toggleReadButton, deleteButton)
+
 
   // Create card and append children to it
   let card = document.createElement("div");
   card.classList.add("card");
-  card.append(title, author, pages, readStatus);
+  card.append(textBox, buttonContainer);
 
   return card;
 }
@@ -88,6 +100,6 @@ confirmButton.addEventListener("click", event => {
 
   dialog.close();
   displayLibrary();
-})
+});
 
 displayLibrary();
