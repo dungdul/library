@@ -1,5 +1,6 @@
-const myLibrary = [];
+let myLibrary = [];
 myLibrary.push({
+  id: crypto.randomUUID(),
   title: "Harry",
   author: "JK",
   pages: 200,
@@ -46,15 +47,22 @@ function createBookCard(book) {
   let textBox = document.createElement("div");
   textBox.append(title, author, pages, readStatus);
 
-  // Buttons
+  // Button to toggle read status
   let toggleReadButton = document.createElement("button");
   toggleReadButton.textContent = book.read ? "Mark as unread" : "Mark as read"
+
+  // Delete button
   let deleteButton = document.createElement("button");
   deleteButton.textContent = "Delete";
+  deleteButton.onclick = function() {
+    myLibrary = myLibrary.filter(item => item.id !== book.id);
+    displayLibrary();
+  }
+
+  // Add buttons to a container
   let buttonContainer = document.createElement("div");
   buttonContainer.classList.add("button-container");
   buttonContainer.append( toggleReadButton, deleteButton)
-
 
   // Create card and append children to it
   let card = document.createElement("div");
