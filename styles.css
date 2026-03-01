@@ -17,7 +17,6 @@ li {
   text-align: center;
   padding: 28px 0 22px;
   border-bottom: 2px solid grey;
-  margin-bottom: 42px;
 
   > h1 {
     font-size: 2rem;
@@ -78,7 +77,6 @@ li {
   }
 }
 
-
 input {
   border: 2px solid rgb(177, 177, 177);
   border-radius: 4px;
@@ -100,9 +98,19 @@ fieldset {
   }
 }
 
+#library {
+  padding: 48px 24px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
 .card {
+  --vertical-gap: 20px;
+
   width: 250px;
-  min-height: 180px;
+  min-height: 230px;
   background-color: beige;
   border: 2px solid grey;
   border-radius: 14px;
@@ -110,10 +118,17 @@ fieldset {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: var(--vertical-gap);
 
   h2 {
     text-align: center;
-    margin-bottom: 12px;
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: var(--vertical-gap);
+  }
+
+  p {
+    line-height: 1.5;
   }
 
   .button-container {

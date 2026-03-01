@@ -63,7 +63,7 @@ function createBookCard(book) {
   // Add buttons to a container
   let buttonContainer = document.createElement("div");
   buttonContainer.classList.add("button-container");
-  buttonContainer.append( toggleReadButton, deleteButton)
+  buttonContainer.append(toggleReadButton, deleteButton)
 
   // Create card and append children to it
   let card = document.createElement("div");
@@ -111,10 +111,41 @@ confirmButton.addEventListener("click", event => {
   displayLibrary();
 });
 
+// Random initial books for testing
 myLibrary.push(new Book({
-  title: 'harry',
-  author: 'JK',
-  pages: 200,
+  title: 'The Silent Orbit',
+  author: 'L. Navarro',
+  pages: 318,
+  read: true,
+}))
+myLibrary.push(new Book({
+  title: 'Fragments of Winter',
+  author: 'Aiko Tanabe',
+  pages: 247,
+  read: false,
+}))
+myLibrary.push(new Book({
+  title: 'Quantum Harbor',
+  author: 'M. O’Connell',
+  pages: 412,
+  read: true,
+}))
+myLibrary.push(new Book({
+  title: 'Echoes in Amber',
+  author: 'R. Petrov',
+  pages: 189,
+  read: false,
+}))
+myLibrary.push(new Book({
+  title: 'Garden of Mechanical Birds',
+  author: 'S. Ibrahim',
+  pages: 356,
+  read: true,
+}))
+myLibrary.push(new Book({
+  title: 'The Last Cartographer',
+  author: 'H. Schmidt',
+  pages: 271,
   read: false,
 }))
 
