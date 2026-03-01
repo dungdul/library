@@ -1,11 +1,4 @@
 let myLibrary = [];
-myLibrary.push({
-  id: crypto.randomUUID(),
-  title: "Harry",
-  author: "JK",
-  pages: 200,
-  read: false
-})
 
 const dialog = document.querySelector("#add-book-dialog");
 const textInputs = document.querySelectorAll('input[type="text"]');
@@ -19,6 +12,10 @@ function Book(inputObject) {
   this.id = crypto.randomUUID();
   Object.assign(this, inputObject);
 }
+
+Book.prototype.toggleReadStatus = function() {
+  this.read = !this.read;
+};
 
 function addBookToLibrary(inputObject) {
   // take params, create a book then store it in the array
@@ -49,7 +46,11 @@ function createBookCard(book) {
 
   // Button to toggle read status
   let toggleReadButton = document.createElement("button");
-  toggleReadButton.textContent = book.read ? "Mark as unread" : "Mark as read"
+  toggleReadButton.textContent = book.read ? "Mark as unread" : "Mark as read";
+  toggleReadButton.onclick = function() {
+    book.toggleReadStatus();
+    displayLibrary();
+  };
 
   // Delete button
   let deleteButton = document.createElement("button");
@@ -57,7 +58,7 @@ function createBookCard(book) {
   deleteButton.onclick = function() {
     myLibrary = myLibrary.filter(item => item.id !== book.id);
     displayLibrary();
-  }
+  };
 
   // Add buttons to a container
   let buttonContainer = document.createElement("div");
@@ -109,5 +110,12 @@ confirmButton.addEventListener("click", event => {
   dialog.close();
   displayLibrary();
 });
+
+myLibrary.push(new Book({
+  title: 'harry',
+  author: 'JK',
+  pages: 200,
+  read: false,
+}))
 
 displayLibrary();
