@@ -101,6 +101,11 @@ function initializeDisplayManager() {
 
   function updateDisplay() {
     const libraryDiv = document.querySelector("#books");
+
+    libraryDiv.textContent = '';
+    library.books.forEach(book => {
+      libraryDiv.append(createBookCard(book));
+    });
   }
   
   function addEventListenersToDialog() {
@@ -146,12 +151,4 @@ function initializeDisplayManager() {
   }
 }
 
-
-function displayLibrary() {
-  libraryDiv.innerHTML = "";
-  myLibrary.forEach(book => {
-    libraryDiv.append(createBookCard(book));
-  })
-}
-
-displayLibrary();
+initializeDisplayManager();
