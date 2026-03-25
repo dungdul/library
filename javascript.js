@@ -63,6 +63,45 @@ class Book {
 
 function initializeDisplayManager() {
   const library = new Library();
+
+  function createBookCard(book) {
+    // Text content
+    let title = document.createElement("h2");
+    title.classList.add("title");
+    title.textContent = book.title;
+    let author = document.createElement("p");
+    author.textContent = `Author: ${book.author}`;
+    let pages = document.createElement("p");
+    pages.textContent = `${book.pages} pages`;
+    let readStatus = document.createElement("p");
+    readStatus.textContent = book.readStatus ? "read" : "unread";
+    let textBox = document.createElement("div");
+    textBox.append(title, author, pages, readStatus);
+
+    // Buttons
+    // dataset.bookId will be used when user presses the button
+    // For example, pressing delete button will call library.deleteBook(e.target.dataset.bookId)
+    let toggleReadStatusButton = document.createElement("button");
+    toggleReadStatusButton.textContent = book.readStatus ? 'Mark as read' : 'Mark as unread';
+    toggleReadStatusButton.dataset.bookId = book.id;
+    let deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.dataset.bookId = book.id;
+    let buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("button-container");
+    buttonContainer.append(toggleReadStatusButton, deleteButton)
+
+    // Create card and append children to it
+    let card = document.createElement("div");
+    card.classList.add("card");
+    card.append(textBox, buttonContainer);
+
+    return card;
+  }
+
+  function updateDisplay() {
+    const libraryDiv = document.querySelector("#books");
+  }
   
   function addEventListenersToDialog() {
     const dialog = document.querySelector('#add-book-dialog');
@@ -105,9 +144,6 @@ function initializeDisplayManager() {
       updateDisplay();
     });
   }
-
-  const libraryDiv = document.querySelector("#books");
-
 }
 
 
@@ -116,49 +152,6 @@ function displayLibrary() {
   myLibrary.forEach(book => {
     libraryDiv.append(createBookCard(book));
   })
-}
-
-function createBookCard(book) {
-  // Text content
-  let title = document.createElement("h2");
-  title.classList.add("title");
-  title.textContent = book.title;
-  let author = document.createElement("p");
-  author.textContent = `Author: ${book.author}`;
-  let pages = document.createElement("p");
-  pages.textContent = `${book.pages} pages`;
-  let readStatus = document.createElement("p");
-  readStatus.textContent = book.read ? "read" : "unread";
-  let textBox = document.createElement("div");
-  textBox.append(title, author, pages, readStatus);
-
-  // Button to toggle read status
-  let toggleReadButton = document.createElement("button");
-  toggleReadButton.textContent = book.read ? "Mark as unread" : "Mark as read";
-  toggleReadButton.onclick = function() {
-    book.toggleReadStatus();
-    displayLibrary();
-  };
-
-  // Delete button
-  let deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.onclick = function() {
-    myLibrary = myLibrary.filter(item => item.id !== book.id);
-    displayLibrary();
-  };
-
-  // Add buttons to a container
-  let buttonContainer = document.createElement("div");
-  buttonContainer.classList.add("button-container");
-  buttonContainer.append(toggleReadButton, deleteButton)
-
-  // Create card and append children to it
-  let card = document.createElement("div");
-  card.classList.add("card");
-  card.append(textBox, buttonContainer);
-
-  return card;
 }
 
 displayLibrary();
