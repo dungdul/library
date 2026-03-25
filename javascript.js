@@ -83,16 +83,20 @@ function initializeDisplay() {
     textBox.append(title, author, pages, readStatus);
 
     // Buttons
-    // dataset.bookId will be used when user presses the button
-    // For example, pressing delete button will call library.deleteBook(e.target.dataset.bookId)
+    // Each button will call a function with book id as an argument when clicked
+    // For example, pressing delete button will call library.deleteBook(book.id)
     let toggleReadStatusButton = document.createElement("button");
     toggleReadStatusButton.textContent = book.readStatus ? 'Mark as read' : 'Mark as unread';
-    toggleReadStatusButton.classList.add('toggle-read-status');
-    toggleReadStatusButton.dataset.bookId = book.id;
+    toggleReadStatusButton.onclick = function() {
+      library.getBookWithId(book.id).toggleReadStatus();
+      updateDisplay();
+    };
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
-    deleteButton.classList.add('delete');
-    deleteButton.dataset.bookId = book.id;
+    deleteButton.onclick = function() {
+      library.deleteBook(book.id);
+      updateDisplay();
+    };
     let buttonContainer = document.createElement("div");
     buttonContainer.classList.add("button-container");
     buttonContainer.append(toggleReadStatusButton, deleteButton)
@@ -156,31 +160,6 @@ function initializeDisplay() {
     });
   }
 
-  function addEventListenersToButtons() {
-    const buttons = document.querySelectorAll('#library button');
-
-    // Each button has either 'toggle-read-status' or 'delete' class
-    // Execute different function depending on the class
-    buttons.forEach(button => {
-      button.addEventListener('click', e => {
-        const bookId = e.target.dataset.bookId;
-
-        switch (e.target.className) {
-          case 'toggle-read-status':
-            library.getBookWithId(bookId).toggleReadStatus();
-            break;
-          case 'delete':
-            library.deleteBook(bookId);
-            break;
-          default:
-            throw new Error('Invalid class name for the button');
-        }
-
-        updateDisplay();
-      });
-    });
-  }
-
   // For testing
   library.addBook(new Book("The Pragmatic Programmer", "Andrew Hunt", 352, true));
   library.addBook(new Book("Clean Code", "Robert C. Martin", 464, false));
@@ -192,7 +171,6 @@ function initializeDisplay() {
   library.addBook(new Book("Introduction to Algorithms", "Thomas H. Cormen", 1312, true));
 
   addEventListenersToDialog();
-  addEventListenersToButtons();
   updateDisplay();
 }
 
