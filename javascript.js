@@ -9,8 +9,12 @@ class Library {
     this.#books.push(book);
   }
 
-  deleteBook(bookToDelete) {
-    this.#books = this.#books.filter(currentbook => currentbook.id !== bookToDelete.id);
+  deleteBook(bookId) {
+    this.#books = this.#books.filter(currentbook => currentbook.id !== bookId);
+  }
+
+  getBookWithId(bookId) {
+    return this.#books.filter(book => book.id === bookId)[0];
   }
 
   get books() {
@@ -83,9 +87,11 @@ function initializeDisplayManager() {
     // For example, pressing delete button will call library.deleteBook(e.target.dataset.bookId)
     let toggleReadStatusButton = document.createElement("button");
     toggleReadStatusButton.textContent = book.readStatus ? 'Mark as read' : 'Mark as unread';
+    toggleReadStatusButton.classList.add('toggle-read-status');
     toggleReadStatusButton.dataset.bookId = book.id;
     let deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
+    deleteButton.classList.add('delete');
     deleteButton.dataset.bookId = book.id;
     let buttonContainer = document.createElement("div");
     buttonContainer.classList.add("button-container");
@@ -149,6 +155,35 @@ function initializeDisplayManager() {
       updateDisplay();
     });
   }
+
+  function addEventListenersToButtons() {
+    const buttons = document.querySelectorAll('#library button');
+
+    // Each button has either 'toggle-read-status' or 'delete' class
+    // Execute different function depending on the class
+    buttons.forEach(button => {
+      button.addEventListener('click', e => {
+        const bookId = e.target.dataset.bookId;
+
+        switch (e.target.className) {
+          case 'toggle-read-status':
+            library.getBookWithId(bookId).toggleReadStatus();
+            break;
+          case 'delete':
+            library.deleteBook(bookId);
+            break;
+          default:
+            throw new Error('Invalid class name for the button');
+        }
+
+        updateDisplay();
+      });
+    });
+  }
+
+  addEventListenersToDialog();
+  addEventListenersToButtons();
+  updateDisplay();
 }
 
 initializeDisplayManager();
