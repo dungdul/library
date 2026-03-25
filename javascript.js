@@ -60,13 +60,56 @@ class Book {
   }
 }
 
-const dialog = document.querySelector("#add-book-dialog");
-const textInputs = document.querySelectorAll('input[type="text"]');
-const numberInputs = document.querySelectorAll('input[type="number"]');
-const radioButtons = document.querySelectorAll('input[type="radio"]');
-const cancelButton = document.querySelector('#cancel');
-const confirmButton = document.querySelector('#confirm');
-const libraryDiv = document.querySelector("#books");
+
+function initializeDisplayManager() {
+  const library = new Library();
+  
+  function addEventListenersToDialog() {
+    const dialog = document.querySelector('#add-book-dialog');
+    const titleInput = document.querySelector('title');
+    const authorInput = document.querySelector('#author');
+    const pagesInput = document.querySelector('#pages');
+    const readStatusButtons = document.querySelectorAll('input[name="read"]');
+    const cancelButton = document.querySelector('#cancel');
+    const confirmButton = document.querySelector('#confirm');
+  
+    cancelButton.addEventListener("click", event => {
+      event.preventDefault();
+      dialog.close();
+    })
+  
+    // When user adds a new book, add the book to the array, clear input fields, and update the display
+    confirmButton.addEventListener("click", event => {
+      event.preventDefault();
+
+      // Process read status
+      let readStatus = Array.from(readStatusButtons).filter(button => button.checked)[0].value;
+      readStatus = readStatus === "yes" ? true : false;
+
+      library.addBook(new Book(
+        titleInput.value,
+        authorInput.value,
+        +pagesInput.value,
+        readStatus,
+      ));
+  
+      // Clear all input fields
+      [...textInputs, ...numberInputs].forEach(input => {
+        input.value = "";
+      });
+      radioButtons.forEach(button => {
+        button.checked = false;
+      });
+  
+      dialog.close();
+      updateDisplay();
+    });
+  }
+
+  const libraryDiv = document.querySelector("#books");
+
+}
+
 
 function displayLibrary() {
   libraryDiv.innerHTML = "";
@@ -117,81 +160,5 @@ function createBookCard(book) {
 
   return card;
 }
-
-function getInputValues() {
-  let inputObject = {};
-  textInputs.forEach(input => {
-    inputObject[input.id] = input.value;
-  })
-  numberInputs.forEach(input => {
-    inputObject[input.id] = +input.value;
-  })
-  let read = Array.from(radioButtons).filter(button => button.checked)[0].value;
-  inputObject.read = read === "yes" ? true : false;
-  return inputObject;
-}
-
-cancelButton.addEventListener("click", event => {
-  event.preventDefault();
-  dialog.close();
-})
-
-// When user adds a new book, add the book to the array, clear input fields, and update the display
-confirmButton.addEventListener("click", event => {
-  event.preventDefault();
-  addBookToLibrary(getInputValues());
-
-  // Clear all input fields
-  textInputs.forEach(input => {
-    input.value = "";
-  })
-  numberInputs.forEach(input => {
-    input.value = "";
-  })
-  radioButtons.forEach(button => {
-    button.checked = false;
-  })
-
-  dialog.close();
-  displayLibrary();
-});
-
-// Random initial books for testing
-myLibrary.push(new Book({
-  title: 'The Silent Orbit',
-  author: 'L. Navarro',
-  pages: 318,
-  read: true,
-}))
-myLibrary.push(new Book({
-  title: 'Fragments of Winter',
-  author: 'Aiko Tanabe',
-  pages: 247,
-  read: false,
-}))
-myLibrary.push(new Book({
-  title: 'Quantum Harbor',
-  author: 'M. O’Connell',
-  pages: 412,
-  read: true,
-}))
-myLibrary.push(new Book({
-  title: 'Echoes in Amber',
-  author: 'R. Petrov',
-  pages: 189,
-  read: false,
-}))
-myLibrary.push(new Book({
-  title: 'Garden of Mechanical Birds',
-  author: 'S. Ibrahim',
-  pages: 356,
-  read: true,
-}))
-myLibrary.push(new Book({
-  title: 'The Last Cartographer',
-  author: 'H. Schmidt',
-  pages: 271,
-  read: false,
-}))
 
 displayLibrary();
