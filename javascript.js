@@ -65,7 +65,7 @@ class Book {
 }
 
 
-function initializeDisplayManager() {
+function initializeDisplay() {
   const library = new Library();
 
   function createBookCard(book) {
@@ -116,7 +116,7 @@ function initializeDisplayManager() {
   
   function addEventListenersToDialog() {
     const dialog = document.querySelector('#add-book-dialog');
-    const titleInput = document.querySelector('title');
+    const titleInput = document.querySelector('#title');
     const authorInput = document.querySelector('#author');
     const pagesInput = document.querySelector('#pages');
     const readStatusButtons = document.querySelectorAll('input[name="read"]');
@@ -144,10 +144,10 @@ function initializeDisplayManager() {
       ));
   
       // Clear all input fields
-      [...textInputs, ...numberInputs].forEach(input => {
+      [titleInput, authorInput, pagesInput].forEach(input => {
         input.value = "";
       });
-      radioButtons.forEach(button => {
+      readStatusButtons.forEach(button => {
         button.checked = false;
       });
   
@@ -181,9 +181,19 @@ function initializeDisplayManager() {
     });
   }
 
+  // For testing
+  library.addBook(new Book("The Pragmatic Programmer", "Andrew Hunt", 352, true));
+  library.addBook(new Book("Clean Code", "Robert C. Martin", 464, false));
+  library.addBook(new Book("You Don't Know JS Yet", "Kyle Simpson", 143, true));
+  library.addBook(new Book("Eloquent JavaScript", "Marijn Haverbeke", 472, false));
+  library.addBook(new Book("JavaScript: The Good Parts", "Douglas Crockford", 176, true));
+  library.addBook(new Book("Refactoring", "Martin Fowler", 448, false));
+  library.addBook(new Book("Design Patterns", "Erich Gamma", 395, false));
+  library.addBook(new Book("Introduction to Algorithms", "Thomas H. Cormen", 1312, true));
+
   addEventListenersToDialog();
   addEventListenersToButtons();
   updateDisplay();
 }
 
-initializeDisplayManager();
+initializeDisplay();
