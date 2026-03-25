@@ -1,4 +1,64 @@
-let myLibrary = [];
+class Library {
+  #books;
+
+  constructor() {
+    this.#books = [];
+  }
+
+  addBook(book) {
+    this.#books.push(book);
+  }
+
+  deleteBook(bookToDelete) {
+    this.#books = this.#books.filter(currentbook => currentbook.id !== bookToDelete.id);
+  }
+
+  get books() {
+    // Return a copy, not the array itself
+    // This makes books array unable to modify from outside
+    return [...this.#books];
+  }
+}
+
+class Book {
+  #id;
+  #title;
+  #author;
+  #pages;
+  #readStatus;
+
+  constructor(title, author, pages, readStatus) {
+    this.#id = crypto.randomUUID();
+    this.#title = title;
+    this.#author = author;
+    this.#pages = pages;
+    this.#readStatus = readStatus;
+  }
+
+  get id() {
+    return this.#id;
+  }
+
+  get title() {
+    return this.#title;
+  }
+
+  get author() {
+    return this.#author;
+  }
+
+  get pages() {
+    return this.#pages;
+  }
+  
+  get readStatus() {
+    return this.#readStatus;
+  }
+
+  toggleReadStatus() {
+    this.#readStatus = !this.readStatus;
+  }
+}
 
 const dialog = document.querySelector("#add-book-dialog");
 const textInputs = document.querySelectorAll('input[type="text"]');
@@ -6,22 +66,7 @@ const numberInputs = document.querySelectorAll('input[type="number"]');
 const radioButtons = document.querySelectorAll('input[type="radio"]');
 const cancelButton = document.querySelector('#cancel');
 const confirmButton = document.querySelector('#confirm');
-const libraryDiv = document.querySelector("#library");
-
-function Book(inputObject) {
-  this.id = crypto.randomUUID();
-  Object.assign(this, inputObject);
-}
-
-Book.prototype.toggleReadStatus = function() {
-  this.read = !this.read;
-};
-
-function addBookToLibrary(inputObject) {
-  // take params, create a book then store it in the array
-  let book = new Book(inputObject);
-  myLibrary.push(book);
-}
+const libraryDiv = document.querySelector("#books");
 
 function displayLibrary() {
   libraryDiv.innerHTML = "";
