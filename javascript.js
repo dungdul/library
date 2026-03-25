@@ -100,7 +100,7 @@ function initializeDisplayManager() {
   }
 
   function updateDisplay() {
-    const libraryDiv = document.querySelector("#books");
+    const libraryDiv = document.querySelector("#library");
 
     libraryDiv.textContent = '';
     library.books.forEach(book => {
