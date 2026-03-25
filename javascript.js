@@ -14,7 +14,7 @@ class Library {
   }
 
   getBookWithId(bookId) {
-    return this.#books.filter(book => book.id === bookId)[0];
+    return this.#books.find(book => book.id === bookId);
   }
 
   get books() {
